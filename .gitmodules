@@ -1,0 +1,3 @@
+[submodule "deps/backend"]
+	path = deps/backend
+	url = https://gitlab.enigmagroup.tech/enigma/computer-vision/backend/er-riad.git

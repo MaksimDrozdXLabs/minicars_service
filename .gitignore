@@ -7,4 +7,4 @@
 !requirements.txt
 .idea
 models/best.pt
-models/best_ryad.pt
+models/best_ryad.ptcd
