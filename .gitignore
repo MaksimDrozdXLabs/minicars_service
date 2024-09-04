@@ -1,0 +1,10 @@
+.venv
+*.mp4
+*.jpeg
+*.png
+*.txt
+*.srt
+!requirements.txt
+.idea
+models/best.pt
+models/best_ryad.pt
