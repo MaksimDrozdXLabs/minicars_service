@@ -1,10 +1,24 @@
-
+from typing import (Optional,)
+import sys
+import os
 
 
 class Model:
-    def __init__(self):
-        self.model_path = 'models/ryad288.pt'
-        self.video_path = 'res0.mp4'
+    def __init__(
+        self,
+        model_path: Optional[str] = None,
+    ):
+        if model_path is None:
+            model_path = os.path.join(
+                os.path.abspath(
+                    os.path.dirname(__file__),
+                ),
+                '..', '..', '..',
+                'models/ryad288.pt'
+            )
+
+        self.model_path = model_path
+        # self.video_path = 'res0.mp4'
 
     def model(self):
         from ultralytics import YOLO
@@ -16,7 +30,7 @@ class Model:
         frame_set,
         frame_cv,
     ):
-        #import cv2
+        import cv2
         #cap = cv2.VideoCapture(self.video_path)
 
         #if isinstance(self.video_path, int):
@@ -32,7 +46,13 @@ class Model:
                 frame_cv.wait()
 
                 frame4 = frame_get()
-                frame = cv2.cvtColor(frame4, cv2.COLOR_BGR2RGB),
+
+                if sys.platform == 'linux':
+                    frame = cv2.cvtColor(frame4, cv2.COLOR_BGR2RGB),
+                elif sys.platform == 'darwin':
+                    frame = frame4
+                else:
+                    raise NotImplementedError
 
             # ret, frame = cap.read()
 
@@ -41,7 +61,7 @@ class Model:
 
             pred = self.model.predict(frame, conf=0.3, imgsz=288, verbose=False)[0]
             boxes = pred.boxes.xywh[:, :2].tolist()[:2]
-            img = pred.orig_img
+            img = pred.orig_img.copy()
             for (x, y) in boxes:
                 img = cv2.circle(img, (int(x), int(y)), 20, (255, 0, 0), 10)
 

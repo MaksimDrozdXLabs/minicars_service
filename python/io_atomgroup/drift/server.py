@@ -3,13 +3,22 @@ def main():
     from drift.model import Model
 
     import functools
+    import logging
     import uvicorn
     # sys.path.append('/app')
 
     m = Model()
     m.model()
 
-    t = Test()
+    t = Test(
+        # video_args=[],
+        url_prefix='/drift',
+        feed_fps=30,
+        timestamp_font_size=1.5,
+        timestamp_offset=(900, 150),
+        frame_width=None,
+        frame_height=None,
+    )
     t.run(
         transform_cb=functools.partial(
             m.process,
@@ -19,13 +28,15 @@ def main():
     logging.getLogger('ultralytics').setLevel(logging.WARN)
     uvicorn.run(
         t.app,
-        port=80,
-        host='0.0.0.0',
+        port=8081,
+        #host='0.0.0.0',
+        host='127.0.0.1',
         log_level="info"
     )
 
 if __name__ == '__main__':
     import os
+    import sys
 
     sys.path.append(
         os.path.join(
@@ -35,7 +46,7 @@ if __name__ == '__main__':
     )
 
     sys.path.append(
-        PROJECT_ROOT,
+        os.environ['PROJECT_ROOT'],
     )
 
     # import drift
