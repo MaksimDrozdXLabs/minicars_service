@@ -68,7 +68,16 @@ class Model:
             # cv2.imshow('drift', img)
 
             with frame_cv:
-                frame_set(img)
+                frame_set(
+                    img,
+                    boxes=[
+                        dict(
+                            x=b[0] / img.shape[1],
+                            y=b[1] / img.shape[0],
+                        )
+                        for b in boxes
+                    ],
+                )
 
             #key = cv2.waitKey(1)
             #if key == 27:  # if ESC is pressed, exit loop

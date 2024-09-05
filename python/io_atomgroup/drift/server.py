@@ -18,6 +18,7 @@ def main():
         timestamp_offset=(900, 150),
         frame_width=None,
         frame_height=None,
+        need_cors=True,
     )
     t.run(
         transform_cb=functools.partial(
