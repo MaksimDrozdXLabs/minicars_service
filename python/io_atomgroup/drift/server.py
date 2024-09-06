@@ -11,11 +11,11 @@ def main():
     m.model()
 
     t = Test(
-        # video_args=[],
+        video_args=[0],
         url_prefix='/drift',
         feed_fps=30,
         timestamp_font_size=1.5,
-        timestamp_offset=(900, 150),
+        #timestamp_offset=(900, 150),
         frame_width=None,
         frame_height=None,
         need_cors=True,
@@ -27,12 +27,15 @@ def main():
     )
 
     logging.getLogger('ultralytics').setLevel(logging.WARN)
+
     uvicorn.run(
         t.app,
         port=8081,
         #host='0.0.0.0',
         host='127.0.0.1',
-        log_level="info"
+        ws_ping_interval=1,
+        ws_ping_timeout=0.5,
+        # log_level="debug"
     )
 
 if __name__ == '__main__':

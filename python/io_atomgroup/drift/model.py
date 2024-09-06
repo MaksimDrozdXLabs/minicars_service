@@ -1,4 +1,5 @@
 from typing import (Optional,)
+import datetime
 import sys
 import os
 
@@ -65,21 +66,25 @@ class Model:
             for (x, y) in boxes:
                 img = cv2.circle(img, (int(x), int(y)), 20, (255, 0, 0), 10)
 
+            # print('%s' % datetime.datetime.now().isoformat())
             # cv2.imshow('drift', img)
 
             with frame_cv:
                 frame_set(
                     img,
                     boxes=[
-                        dict(
-                            x=b[0] / img.shape[1],
-                            y=b[1] / img.shape[0],
-                        )
+                        {
+                            'type': 'dot',
+                            'color': 'red',
+                            'border': '1px',
+                            'x': b[0] / img.shape[1],
+                            'y': b[1] / img.shape[0],
+                        }
                         for b in boxes
                     ],
                 )
 
-            #key = cv2.waitKey(1)
+            # key = cv2.waitKey(1)
             #if key == 27:  # if ESC is pressed, exit loop
             #    cv2.destroyAllWindows()
             #    break
